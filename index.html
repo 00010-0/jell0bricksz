@@ -80,13 +80,6 @@ body.ready #homeLogo{opacity:1;transform:none}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 /* --- logo effects --- */
 .logo-img{position:absolute;inset:0;transition:transform .25s ease-out;will-change:transform}
-.logo-shine{
-  position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
-  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%);
-  background-size:260% 100%;background-repeat:no-repeat;
-  animation:shineSweep 4.5s ease-in-out infinite;
-}
-@keyframes shineSweep{0%,15%{background-position:130% 0}55%,100%{background-position:-160% 0}}
 @keyframes glowPulse{
   0%,100%{filter:drop-shadow(0 22px 44px rgba(200,134,10,.25))}
   50%{filter:drop-shadow(0 26px 62px rgba(245,197,24,.5))}
@@ -405,7 +398,6 @@ a,button,.btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   <div id="particles"></div>
   <div id="homeLogo" role="img" aria-label="JELLOBRICK">
     <div class="jb-photo logo-img"></div>
-    <div class="logo-shine"></div>
   </div>
   <div class="home-btns">
     <button class="btn btn-gold" data-goto="menu" data-cursor="Taste" data-magnetic data-i18n="b_menu">Menu</button>
