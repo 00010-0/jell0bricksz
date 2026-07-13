@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>JELLOBRICK — Premium Live Rosin</title>
 <meta name="description" content="JELLOBRICK — small-batch solventless live rosin.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,14 +70,35 @@ body.in-panel #navLogo{opacity:1;pointer-events:auto;transform:none}
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 #homeLogo{
-  width:min(46vmin,380px);position:relative;z-index:2;
-  filter:drop-shadow(0 24px 48px rgba(200,134,10,.28));
-  animation:float 6s ease-in-out infinite;
+  width:min(46vmin,380px);aspect-ratio:859/774;position:relative;z-index:2;
+  perspective:700px;
+  animation:float 6s ease-in-out infinite, glowPulse 4s ease-in-out infinite;
   opacity:0;transform:scale(.94);
   transition:opacity 1s ease .15s, transform 1s cubic-bezier(.2,.8,.2,1) .15s;
 }
 body.ready #homeLogo{opacity:1;transform:none}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* --- logo effects --- */
+.logo-img{position:absolute;inset:0;transition:transform .25s ease-out;will-change:transform}
+.logo-shine{
+  position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
+  background:linear-gradient(115deg,transparent 42%,rgba(255,255,255,.95) 50%,transparent 58%);
+  background-size:260% 100%;background-repeat:no-repeat;
+  animation:shineSweep 4.5s ease-in-out infinite;
+}
+@keyframes shineSweep{0%,15%{background-position:130% 0}55%,100%{background-position:-160% 0}}
+@keyframes glowPulse{
+  0%,100%{filter:drop-shadow(0 22px 44px rgba(200,134,10,.25))}
+  50%{filter:drop-shadow(0 26px 62px rgba(245,197,24,.5))}
+}
+@keyframes boing{
+  0%{transform:scale(1,1)}
+  30%{transform:scale(1.12,.88)}
+  55%{transform:scale(.94,1.06)}
+  75%{transform:scale(1.04,.98)}
+  100%{transform:scale(1,1)}
+}
+.logo-img.boing{animation:boing .6s cubic-bezier(.34,1.56,.64,1)}
 .home-btns{
   display:flex;gap:18px;margin-top:6vh;position:relative;z-index:2;flex-wrap:wrap;justify-content:center;
   opacity:0;transform:translateY(16px);
@@ -283,6 +304,65 @@ textarea{min-height:100px;resize:vertical}
     inset 0 0 0 1px rgba(26,20,8,.1),
     0 2px 8px rgba(26,20,8,.1);
 }
+
+/* ============ RESPONSIVE / MOBILE ============ */
+a,button,.btn{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+@media(max-width:640px){
+  #topbar{padding:12px 14px}
+  #navLogo{height:38px}
+  .lang-switch button{padding:3px 8px;font-size:.62rem}
+
+  /* home */
+  #homeLogo{width:min(64vw,300px)}
+  .home-btns{
+    margin-top:5vh;gap:12px;width:100%;padding:0 28px;
+    flex-direction:column;align-items:center;
+  }
+  .home-btns .btn{width:100%;max-width:340px;justify-content:center;padding:16px 20px}
+  .home-tag{font-size:.58rem;letter-spacing:3px;text-align:center;padding:0 22px}
+  #glowOrb{width:80vmin;height:80vmin}
+
+  /* age gate / loader */
+  .gate-video{width:min(58vw,250px)}
+  #gateLogo{width:min(58vw,250px)}
+  .gate-body p{font-size:.78rem;padding:0 28px}
+  .gate-btns{flex-direction:column;align-items:center;gap:10px;width:100%;padding:0 28px}
+  .gate-btns .btn{width:100%;max-width:320px;justify-content:center}
+  .loader-dots{height:44px;gap:11px}
+  .circle{width:10px;height:10px}
+
+  /* panels */
+  .panel-inner{width:94vw;max-height:68vh}
+  .panel h2{font-size:1.85rem}
+  .panel .sub{font-size:.78rem;margin-bottom:24px}
+  .m-item{padding:16px 6px;gap:10px}
+  .m-name{font-size:1.1rem}
+  .m-price{font-size:1.05rem}
+  .m-micron{font-size:.6rem}
+  .m-desc{font-size:.75rem}
+  .menu-note{font-size:.66rem;margin-top:18px}
+  .c-line{font-size:.85rem}
+  .socials a{width:42px;height:42px;font-size:.95rem}
+  .back-hint{margin-top:18px}
+
+  /* legal + notches */
+  #legal{font-size:.5rem;bottom:calc(8px + env(safe-area-inset-bottom))}
+}
+/* iOS: inputs under 16px trigger auto-zoom on focus */
+@media(max-width:640px){
+  input,textarea,select{font-size:16px;padding:12px 16px}
+  textarea{min-height:90px}
+}
+@media(max-height:520px) and (orientation:landscape){
+  /* small phones rotated: compact everything */
+  #homeLogo{width:min(30vh,200px)}
+  .home-btns{margin-top:3vh;flex-direction:row}
+  .home-btns .btn{width:auto;padding:12px 30px}
+  .home-tag{margin-top:12px}
+  .gate-video,#gateLogo{width:min(34vh,200px)}
+  .loader-dots{height:30px;margin-top:12px}
+  .gate-body p{margin-bottom:10px}
+}
 </style>
 </head>
 <body>
@@ -323,7 +403,10 @@ textarea{min-height:100px;resize:vertical}
 <section class="view active" id="view-home">
   <div id="glowOrb"></div>
   <div id="particles"></div>
-  <div class="jb-photo" id="homeLogo" role="img" aria-label="JELLOBRICK"></div>
+  <div id="homeLogo" role="img" aria-label="JELLOBRICK">
+    <div class="jb-photo logo-img"></div>
+    <div class="logo-shine"></div>
+  </div>
   <div class="home-btns">
     <button class="btn btn-gold" data-goto="menu" data-cursor="Taste" data-magnetic data-i18n="b_menu">Menu</button>
     <button class="btn btn-ghost" data-goto="contact" data-cursor="Say hi" data-magnetic data-i18n="b_contact">Contact</button>
@@ -495,6 +578,26 @@ for(let i=0;i<16;i++){
   p.style.animationDelay=(-Math.random()*20)+'s';
   pc.appendChild(p);
 }
+
+/* ============ LOGO EFFECTS: 3D tilt + jelly bounce ============ */
+(function(){
+  const wrap=document.getElementById('homeLogo');
+  const img=wrap.querySelector('.logo-img');
+  const home=document.getElementById('view-home');
+  if(window.matchMedia('(hover: hover)').matches){
+    home.addEventListener('mousemove',e=>{
+      const r=wrap.getBoundingClientRect();
+      const dx=Math.max(-.6,Math.min(.6,(e.clientX-(r.left+r.width/2))/r.width));
+      const dy=Math.max(-.6,Math.min(.6,(e.clientY-(r.top+r.height/2))/r.height));
+      img.style.transform=`rotateY(${(dx*14).toFixed(2)}deg) rotateX(${(-dy*14).toFixed(2)}deg)`;
+    },{passive:true});
+    home.addEventListener('mouseleave',()=>{img.style.transform=''});
+  }
+  wrap.addEventListener('click',()=>{
+    img.style.transform='';
+    img.classList.remove('boing');void img.offsetWidth;img.classList.add('boing');
+  });
+})();
 
 /* ============ MENU ITEMS (expand details) ============ */
 document.querySelectorAll('.m-item').forEach(it=>{
